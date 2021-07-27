@@ -4,8 +4,12 @@ import com.raphael.medium.customer.dao.CustomerDAO;
 import com.raphael.medium.customer.dao.entity.CustomerEntity;
 import com.raphael.medium.customer.dao.mapper.CustomerEntityMapper;
 import com.raphael.medium.customer.service.model.Customer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
+@Slf4j
 public class CustomerService {
 
     @Autowired
