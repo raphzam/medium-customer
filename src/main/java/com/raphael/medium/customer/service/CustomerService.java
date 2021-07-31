@@ -1,5 +1,6 @@
 package com.raphael.medium.customer.service;
 
+import com.raphael.medium.customer.controller.exception.CustomerSystemException;
 import com.raphael.medium.customer.dao.CustomerDAO;
 import com.raphael.medium.customer.dao.entity.CustomerEntity;
 import com.raphael.medium.customer.dao.mapper.CustomerEntityMapper;
@@ -20,10 +21,18 @@ public class CustomerService {
     }
 
     private Customer persistCustomer(Customer customer) {
-        CustomerEntity customerEntity = CustomerEntityMapper.INSTANCE.customerToCustomerEntity(customer);
-        CustomerEntity storedEntity = customerDAO.save(customerEntity);
-        Customer returnCustomer = CustomerEntityMapper.INSTANCE.customerEntityToCustomer(storedEntity);
-        return returnCustomer;
+        try {
+            CustomerEntity customerEntity =
+                    CustomerEntityMapper.INSTANCE.customerToCustomerEntity(customer);
+            CustomerEntity storedEntity = customerDAO.save(customerEntity);
+            Customer returnCustomer =
+                    CustomerEntityMapper.INSTANCE.customerEntityToCustomer(storedEntity);
+            return returnCustomer;
+        } catch (Exception e) {
+            throw new CustomerSystemException(
+                    "Unable to persist customer data: " + e.getMessage(), e);
+        }
+
     }
 
 }
